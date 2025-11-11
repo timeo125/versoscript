@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verso Script - Plateforme de Scripts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #0fccce;
+            --text-color: #ffffff;
+            --light-gray: #e6e6e6;
+            --card-bg: #0d0d1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            padding: 1.2rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 10rem 0 6rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: var(--light-gray);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 0.9rem 2.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #0db9bb;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(15, 204, 206, 0.4);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            margin-left: 1rem;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Scripts Section */
+        .scripts-section {
+            background-color: var(--secondary-color);
+        }
+
+        .script-comment {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 1rem;
+        }
+
+        .add-script-btn-container {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .add-script-form {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .add-script-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--light-gray);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .script-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .script-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .script-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .script-category {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .script-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .script-author {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .script-description {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        .script-body {
+            padding: 1.5rem;
+        }
+
+        .script-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .script-features li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .script-features li i {
+            color: var(--accent-color);
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .script-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d0d1a;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 8rem 0 4rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary-color);
+                padding: 1rem 0;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">VERSO <span>SCRIPT</span></a>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="#home">ACCUEIL</a></li>
+                    <li><a href="#scripts">SCRIPTS</a></li>
+                    <li><a href="#download">TÉLÉCHARGEMENT</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>VERSO SCRIPT</h1>
+            <p>La plateforme de scripts la plus avancée et sécurisée du marché. Dominez vos projets avec notre technologie de pointe.</p>
+            <div>
+                <a href="#download" class="btn">TÉLÉCHARGER MAINTENANT</a>
+                <a href="#scripts" class="btn btn-outline">EXPLORER LES SCRIPTS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts Section -->
+    <section class="scripts-section" id="scripts">
+        <div class="container">
+            <div class="section-title">
+                <h2>NOS SCRIPTS</h2>
+                <p>Découvrez notre collection de scripts spécialisés pour différents besoins</p>
+            </div>
+            
+            <!-- COMMENTAIRE -->
+            <div class="script-comment">
+                "Explorez notre bibliothèque de scripts optimisés pour performance et sécurité. Chaque script est régulièrement mis à jour et testé."
+            </div>
+
+            <!-- BOUTON POUR AJOUTER UN SCRIPT PUBLIC -->
+            <div class="add-script-btn-container">
+                <button class="btn" id="addScriptBtn">
+                    <i class="fas fa-plus"></i> AJOUTER UN SCRIPT PUBLIC
+                </button>
+            </div>
+
+            <!-- FORMULAIRE D'AJOUT DE SCRIPT -->
+            <div class="add-script-form" id="addScriptForm">
+                <h3 style="margin-bottom: 1.5rem; text-align: center;">AJOUTER UN NOUVEAU SCRIPT PUBLIC</h3>
+                <form id="scriptForm">
+                    <div class="form-group">
+                        <label for="scriptTitle">Titre du Script</label>
+                        <input type="text" id="scriptTitle" required placeholder="Donnez un nom à votre script">
+                    </div>
+                    <div class="form-group">
+                        <label for="scriptAuthor">Votre Nom</label>
+                        <input type="text" id="scriptAuthor" required placeholder="Comment voulez-vous être crédité?">
+                    </div>
+                    <div class="form-group">
+                        <label for="scriptCategory">Catégorie</label>
+                        <select id="scriptCategory" required>
+                            <option value="">Sélectionnez une catégorie</option>
+                            <option value="Jeux">Jeux</option>
+                            <option value="Productivité">Productivité</option>
+                            <option value="Sécurité">Sécurité</option>
+                            <option value="Développement">Développement</option>
+                            <option value="Réseau">Réseau</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="scriptDescription">Description</label>
+                        <textarea id="scriptDescription" required placeholder="Décrivez votre script et ses fonctionnalités"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="scriptFeatures">Fonctionnalités (séparées par des virgules)</label>
+                        <input type="text" id="scriptFeatures" required placeholder="Fonction 1, Fonction 2, Fonction 3">
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="btn" style="flex: 1;">
+                            <i class="fas fa-upload"></i> PUBLIER LE SCRIPT
+                        </button>
+                        <button type="button" class="btn btn-outline" id="cancelBtn" style="flex: 1;">
+                            <i class="fas fa-times"></i> ANNULER
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- GRILLE DES SCRIPTS -->
+            <div class="scripts-grid" id="scriptsGrid">
+                <!-- Les scripts seront ajoutés ici dynamiquement -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download">
+        <div class="container">
+            <div class="section-title">
+                <h2>TÉLÉCHARGER VERSO SCRIPT</h2>
+                <p>Obtenez la plateforme pour gérer et exécuter tous ces scripts</p>
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="btn" style="font-size: 1.2rem; padding: 1.2rem 2.5rem;">
+                    <i class="fas fa-download"></i> TÉLÉCHARGER MAINTENANT
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>VERSO SCRIPT</h3>
+                    <p>Plateforme de scripts avancés pour tous vos besoins.</p>
+                </div>
+                <div>
+                    <h3>LIENS RAPIDES</h3>
+                    <ul>
+                        <li><a href="#home">Accueil</a></li>
+                        <li><a href="#scripts">Scripts</a></li>
+                        <li><a href="#download">Téléchargement</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Verso Script. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('show');
+        });
+
+        // Gestion des scripts
+        const addScriptBtn = document.getElementById('addScriptBtn');
+        const addScriptForm = document.getElementById('addScriptForm');
+        const scriptForm = document.getElementById('scriptForm');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const scriptsGrid = document.getElementById('scriptsGrid');
+
+        // Liste des scripts (vide au départ)
+        let scripts = [];
+
+        // Afficher/Masquer le formulaire
+        addScriptBtn.addEventListener('click', function() {
+            addScriptForm.classList.toggle('active');
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            addScriptForm.classList.remove('active');
+            scriptForm.reset();
+        });
+
+        // Gestion de la soumission du formulaire
+        scriptForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newScript = {
+                id: Date.now(),
+                title: document.getElementById('scriptTitle').value,
+                author: document.getElementById('scriptAuthor').value,
+                category: document.getElementById('scriptCategory').value,
+                description: document.getElementById('scriptDescription').value,
+                features: document.getElementById('scriptFeatures').value.split(',').map(f => f.trim()),
+                date: new Date().toLocaleDateString('fr-FR')
+            };
+            
+            // Ajouter le nouveau script
+            scripts.unshift(newScript);
+            displayScripts();
+            
+            // Réinitialiser le formulaire
+            scriptForm.reset();
+            addScriptForm.classList.remove('active');
+            
+            // Message de confirmation
+            alert('Script publié avec succès!');
+        });
+
+        // Fonction pour afficher les scripts
+        function displayScripts() {
+            scriptsGrid.innerHTML = '';
+            
+            if (scripts.length === 0) {
+                scriptsGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--light-gray);">
+                        <i class="fas fa-code" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3>Aucun script disponible</h3>
+                        <p>Soyez le premier à ajouter un script public !</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            scripts.forEach(script => {
+                const scriptCard = document.createElement('div');
+                scriptCard.className = 'script-card';
+                
+                scriptCard.innerHTML = `
+                    <div class="script-header">
+                        <span class="script-category">${script.category}</span>
+                        <h3 class="script-title">${script.title}</h3>
+                        <div class="script-author">Par: ${script.author}</div>
+                        <div style="color: var(--light-gray); font-size: 0.8rem; margin-bottom: 0.5rem;">
+                            Publié le: ${script.date}
+                        </div>
+                        <p class="script-description">${script.description}</p>
+                    </div>
+                    <div class="script-body">
+                        <ul class="script-features">
+                            ${script.features.map(feature => `<li><i class="fas fa-check"></i> ${feature}</li>`).join('')}
+                        </ul>
+                        <div class="script-footer">
+                            <button class="btn" onclick="downloadScript('${script.title}')">
+                                <i class="fas fa-download"></i> Télécharger
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                scriptsGrid.appendChild(scriptCard);
+            });
+        }
+
+        // Fonction de téléchargement
+        function downloadScript(scriptName) {
+            alert(`Téléchargement: ${scriptName}`);
+        }
+
+        // Afficher les scripts au chargement
+        displayScripts();
+
+        // Animation header au scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(26, 26, 46, 0.95)';
+            } else {
+                header.style.backgroundColor = 'var(--primary-color)';
+            }
+        });
+    </script>
+</body>
+</html>
